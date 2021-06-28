@@ -18,17 +18,12 @@ void    print_message( Point const a, Point const b, Point const c, Point const 
 
 int main(void)
 {
-    bool ret;
     Point a(0, 0);
-    Point b(200, 0);
-    Point c(0, 20);
-    Point point(6, 6);
+    Point b(10, 0);
+    Point c(0, 10);
+    Point point(3, 3);
 
-
-    std::cout << Fixed(2) + Fixed(2) << std::endl;
-
-    ret = bsp(a, b, c, point);
-    print_message(a, b, c, point, ret);
+    print_message(a, b, c, point, bsp(a, b, c, point));
 
     return 0;
 }

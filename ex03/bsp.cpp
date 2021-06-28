@@ -1,38 +1,49 @@
 #include "Point.hpp"
 
-Fixed   getArea(Point const a, Point const b, Point const c) {
-    Fixed area;
-
-    area = Fixed(0.5f) * ((b.getY() * c.getX() * Fixed(-1)) 
-            + (a.getY() * (b.getX() + c.getX() * Fixed(-1)))
-            + (a.getX() * (b.getY() - c.getY()))
-            + (b.getX() * c.getY()));
-    return (area);
+Fixed ft_abs(Fixed num)
+{
+	if (num < 0)
+		return (num * Fixed(-1));
+	return (num);
 }
 
-bool bsp( Point const a, Point const b, Point const c, Point const point)
+Fixed	dist( Point const & a, Point const & b ) {
+
+
+	return Fixed((a.getX() - b.getX()) + (a.getY() - b.getY()));
+}
+
+bool	is_on_line(Point const & a, Point const & b, Point const & point) {
+	if (dist(a, point) + dist(b, point) == dist(a, b))
+		return (true);
+	return (false);
+}
+
+Fixed getArea(Point const a, Point const b, Point const c)
 {
-    Fixed area, t, s;
+	Fixed area;
 
-    area = getArea(a, b, c);
+	area = Fixed(0.5f)
+		* (a.getX() * (b.getY() - c.getY())
+		+ (b.getX() * (c.getY() - a.getY()))
+		+ (c.getX() * (a.getY() - b.getY())));
+		
+	return (ft_abs(area));
+}
 
-    std::cout << area<< std::endl;
+bool bsp(Point const a, Point const b, Point const c, Point const point)
+{
+	Fixed A, A1, A2, A3;
 
-    s = Fixed(1)/(Fixed(2) * area)
-        * ((a.getY() * c.getX()) - (a.getX() - c.getY()) + ((c.getY() - a.getY()) * point.getX())
-        + (a.getX() - c.getX()) * point.getY());
+	A = getArea(a, b, c);
+	A1 = getArea(a, b, point);
+	A2 = getArea(a, point, c);
+	A3 = getArea(point, b, c);
 
-    std::cout << "s : " << s << std::endl;
-
-    t = Fixed(1)/(Fixed(2) * area)
-        * ((a.getX() * b.getY()) - (a.getY() * b.getX()) + ((a.getY() - b.getY()) * point.getX())
-        + (b.getX() - a.getX()) * point.getY());
-
-    std::cout << "t : " << t << std::endl;
-
-    if (s > Fixed(0) && 
-        t > Fixed(0) &&
-        Fixed(1) - s - t > Fixed(0))
-        return (true);
-    return (false);
+	if (A == (A1 + A2 + A3)
+		&& (A1 != 0)
+		&& (A2 != 0)
+		&& (A3 != 0))
+		return (true);
+	return (false);
 }

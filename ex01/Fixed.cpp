@@ -49,7 +49,7 @@ Fixed &Fixed::operator=(Fixed const &rhs)
 
 std::ostream & operator<<(std::ostream & o, Fixed const & rhs)
 {
-	o << float(rhs.getRawBits()) / 256;
+	o << rhs.toFloat();
 	return o;
 }
 
@@ -58,7 +58,7 @@ std::ostream & operator<<(std::ostream & o, Fixed const & rhs)
 */
 
 float Fixed::toFloat( void ) const {
-	return (float(_fp_value >> 8));
+	return (float(getRawBits()) / 256);
 }
 
 int	Fixed::toInt( void ) const {
